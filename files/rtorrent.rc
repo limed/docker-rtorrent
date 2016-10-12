@@ -8,6 +8,9 @@ log.add_output = "info", "rtorrent"
 log.open_file = "tracker_info", "/config/logs/tracker.log"
 log.add_output = "info", "tracker_info"
 
+log.open_file = "connection_info", "/config/logs/connection.log"
+log.add_output = "info", "connection_info"
+
 # The ip address reported to the tracker.
 network.local_address.set = cronos.sudoers.org
 network.port_range.set = 49300-49300
