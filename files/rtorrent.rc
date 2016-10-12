@@ -5,11 +5,11 @@ system.umask.set = 022
 log.open_file = "rtorrent", "/config/logs/rtorrent.log"
 log.add_output = "info", "rtorrent"
 
-log.open_file = "tracker_info", "/config/logs/tracker.log"
-log.add_output = "info", "tracker_info"
+log.open_file = "tracker.log", "/config/logs/tracker.log"
+log.add_output = "tracker_info", "tracker.log"
 
-log.open_file = "connection_info", "/config/logs/connection.log"
-log.add_output = "info", "connection_info"
+log.open_file = "connection.log", "/config/logs/connection.log"
+log.add_output = "connection_info", "connection.log"
 
 # The ip address reported to the tracker.
 network.local_address.set = cronos.sudoers.org
