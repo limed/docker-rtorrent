@@ -18,6 +18,9 @@ sed \
     -e "s#%%BIND_ADDRESS%%#"${BIND_ADDRESS}"#g" \
     /config/rtorrent.rc
 
+chown rtorrent:user "${BASE_DIRECTORY}"
+chown -R rtorrent:user "${BASE_DIRECTORY}"/downloads
+
 echo "Clearing lock.."
 rm -f "${BASE_DIRECTORY}"/torrents/rtorrent.lock
 

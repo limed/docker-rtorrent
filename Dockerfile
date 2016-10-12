@@ -3,7 +3,8 @@ MAINTAINER limed@sudoers.org
 
 RUN apk --no-cache add rtorrent screen\
     && addgroup -g 1000 rtorrent \
-    && adduser -D -u 1000 -G rtorrent rtorrent \
+    && addgroup -g 111 user \
+    && adduser -D -u 1000 -G user -G rtorrent rtorrent \
     && mkdir -p /data/rtorrent \
     && mkdir -p /config/logs \
     && touch /config/logs/rtorrent.log \
