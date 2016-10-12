@@ -1,0 +1,58 @@
+# rtorrent config
+system.umask.set = 022
+
+# logging
+log.open_file = "rtorrent", "/config/logs/rtorrent.log"
+log.add_output = "info", "rtorrent"
+
+log.open_file = "tracker_info", "/config/logs/tracker.log"
+log.add_output = "info", "tracker_info"
+
+# The ip address reported to the tracker.
+network.local_address.set = cronos.sudoers.org
+network.port_range.set = 49300-49300
+
+# The ip address the listening socket and outgoing connections is
+# bound to.
+#network.bind_address.set = %%BIND_ADDRESS%%
+
+# Port range to use for listening.
+#port_range = 49160-49300
+
+trackers.enable=yes
+
+# Check hash for finished torrents.
+pieces.hash.on_completion.set = yes
+
+# Set whetever the client should try to connect to UDP trackers.
+trackers.use_udp.set = yes
+
+# XMLRPC stuff
+network.scgi.open_port = 0.0.0.0:5000
+
+# Global upload and download rate in KiB. "0" for unlimited.
+throttle.global_down.max_rate.set_kb = 0
+throttle.global_up.max_rate.set_kb = 150
+
+# Default directory to save the downloaded torrents.
+directory.default.set = %%BASE_DIRECTORY%%/downloads
+
+# Default session directory.
+session.path.set = %%BASE_DIRECTORY%%/torrents
+
+# Watch a directory for new torrents, and stop those that have been deleted.
+schedule = watch_directory_0,5,5,"load.start=%%BASE_DIRECTORY%%/watch/*.torrent"
+schedule = watch_directory_1,5,5,"load.start=%%BASE_DIRECTORY%%/watch/tv/*.torrent,d.set_custom1=tv,d.set_directory=%%BASE_DIRECTORY%%/downloads/tv"
+schedule = watch_directory_2,5,5,"load.start=%%BASE_DIRECTORY%%/watch/movies/*.torrent,d.set_custom1=movies,set_directory=%%BASE_DIRECTORY%%/downloads/movies"
+schedule = watch_directory_3,5,5,"load.start=%%BASE_DIRECTORY%%/watch/music/*.torrent,d.set_custom1=music,set_directory=%%BASE_DIRECTORY%%/downloads/music"
+schedule = watch_directory_4,5,5,"load.start=%%BASE_DIRECTORY%%/watch/stuff/*.torrent,d.set_custom1=stuff,set_directory=%%BASE_DIRECTORY%%/downloads/stuff"
+schedule = watch_directory_5,5,5,"load.start=%%BASE_DIRECTORY%%/watch/f1/*.torrent,d.set_custom1=f1,set_directory=%%BASE_DIRECTORY%%/downloads/f1"
+#schedule = tied_directory,6,5,start_tied=
+schedule = untied_directory,5,5,stop_untied=
+
+# Close torrents when diskspace is low.
+schedule = low_diskspace,5,60,close_low_diskspace=100M
+
+# Add new method to get finished dir, and move files based on labels
+system.method.insert = d.get_finished_dir,simple,"cat=%%BASE_DIRECTORY%%/downloads/,$d.get_custom1="
+system.method.set_key = event.download.finished,move_complete,"d.set_directory=$d.get_finished_dir=;execute=mkdir,-p,$d.get_finished_dir=;execute=mv,-u,$d.get_base_path=,$d.get_finished_dir="
