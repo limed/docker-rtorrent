@@ -1,0 +1,4 @@
+---
+container_name: rtorrent
+image_name: limed/rtorrent
+container_state: started
